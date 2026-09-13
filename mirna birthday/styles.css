@@ -1,0 +1,494 @@
+:root {
+  --ink: #1f2524;
+  --soft-ink: #58615d;
+  --paper: #fffaf5;
+  --petal: #f5c7c7;
+  --rose: #a43046;
+  --moss: #315247;
+  --gold: #d7a84c;
+  --sea: #9dc7d8;
+  --shadow: 0 24px 70px rgba(34, 28, 25, 0.22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: linear-gradient(180deg, #f8fbfa 0%, var(--paper) 42%, #f7eeee 100%);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+.card-shell {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.game-screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.85fr) minmax(320px, 420px);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: center;
+  padding: clamp(24px, 5vw, 64px);
+  background:
+    linear-gradient(135deg, rgba(49, 82, 71, 0.93), rgba(35, 112, 139, 0.86)),
+    url("assets/flower-seat.png") center / cover;
+  color: #fffdf8;
+}
+
+.game-copy {
+  max-width: 680px;
+}
+
+.game-copy h1 {
+  max-width: 9.5ch;
+}
+
+.game-copy p {
+  max-width: 590px;
+  margin: 24px 0 0;
+  font-size: clamp(1.05rem, 2vw, 1.34rem);
+  line-height: 1.65;
+}
+
+.game-wrap {
+  position: relative;
+  width: min(420px, 100%);
+  margin-inline: auto;
+  aspect-ratio: 420 / 620;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: #bfe2ea;
+}
+
+.score-board {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.score-board span {
+  min-height: 38px;
+  display: grid;
+  place-items: center;
+  color: #fffdf8;
+  background: rgba(31, 37, 36, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  backdrop-filter: blur(10px);
+}
+
+.score-board strong {
+  margin-left: 4px;
+}
+
+#gameCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation;
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-content: center;
+  gap: 18px;
+  padding: 28px;
+  text-align: center;
+  background: rgba(31, 37, 36, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.game-overlay.hidden {
+  display: none;
+}
+
+.game-overlay h2 {
+  color: #fffdf8;
+  font-size: clamp(2.4rem, 7vw, 4.4rem);
+}
+
+.game-overlay p {
+  max-width: 300px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+.birthday-page.locked {
+  display: none;
+}
+
+.birthday-page.unlocked {
+  display: grid;
+  min-height: 100vh;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+h1 {
+  max-width: 11ch;
+  font-size: clamp(4rem, 11vw, 9.4rem);
+  line-height: 0.9;
+}
+
+.primary-action {
+  border: 0;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.primary-action {
+  min-height: 52px;
+  padding: 0 24px;
+  color: #fffdf8;
+  background: var(--rose);
+  border-radius: 999px;
+  box-shadow: 0 14px 34px rgba(90, 18, 35, 0.35);
+  font-weight: 700;
+}
+
+.primary-action:hover {
+  transform: translateY(-2px);
+}
+
+.mandarin {
+  display: block;
+  margin-bottom: 16px;
+  color: #9e5f59;
+  font-family: "Noto Serif SC", serif;
+  font-size: clamp(1rem, 2.8vw, 1.35rem);
+  font-weight: 700;
+}
+
+.surprise-stage {
+  min-height: 100vh;
+  display: none;
+  place-items: center;
+  padding: 28px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.9), rgba(255, 250, 245, 0.42) 30%, transparent 54%),
+    linear-gradient(180deg, #fff7ef 0%, #f5e5dc 100%);
+}
+
+.surprise-stage.active {
+  display: grid;
+  animation: stageIn 700ms ease both;
+}
+
+.surprise-copy {
+  max-width: 560px;
+}
+
+.surprise-copy h1,
+.final-note h1 {
+  max-width: none;
+  color: #5a3c37;
+  font-size: clamp(2.2rem, 7vw, 5rem);
+  line-height: 1;
+}
+
+.surprise-copy p {
+  margin: 16px auto 0;
+  color: #7a6860;
+  font-size: clamp(1rem, 2.6vw, 1.2rem);
+  line-height: 1.6;
+}
+
+.gift-button {
+  position: relative;
+  width: min(230px, 54vw);
+  height: min(210px, 50vw);
+  margin-bottom: 36px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 24px 34px rgba(112, 72, 64, 0.18));
+  transition: transform 220ms ease;
+}
+
+.gift-button:hover {
+  transform: translateY(-4px) rotate(-1deg);
+}
+
+.gift-box,
+.gift-lid,
+.gift-ribbon {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 8px;
+}
+
+.gift-box {
+  bottom: 0;
+  width: 78%;
+  height: 62%;
+  background: linear-gradient(145deg, #c95866, #9e3f4c);
+}
+
+.gift-lid {
+  bottom: 58%;
+  width: 90%;
+  height: 22%;
+  background: linear-gradient(145deg, #d76d78, #ad4652);
+  transition: transform 600ms ease;
+}
+
+.gift-ribbon {
+  background: #f6d9a7;
+}
+
+.gift-ribbon.vertical {
+  bottom: 0;
+  width: 18%;
+  height: 80%;
+}
+
+.gift-ribbon.horizontal {
+  bottom: 30%;
+  width: 78%;
+  height: 16%;
+}
+
+.gift-step.opening .gift-lid {
+  transform: translate(-50%, -58px) rotate(-10deg);
+}
+
+.cake-step {
+  gap: 34px;
+}
+
+.cake-scene {
+  position: relative;
+  width: min(300px, 72vw);
+  height: 280px;
+}
+
+.cake {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  width: 230px;
+  height: 150px;
+  transform: translateX(-50%);
+}
+
+.cake-layer,
+.cake-plate {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 8px;
+}
+
+.cake-layer.top {
+  top: 10px;
+  width: 140px;
+  height: 42px;
+  background: #f2b8b0;
+}
+
+.cake-layer.middle {
+  top: 48px;
+  width: 180px;
+  height: 48px;
+  background: #f8d7bd;
+}
+
+.cake-layer.bottom {
+  top: 90px;
+  width: 220px;
+  height: 54px;
+  background: #c95866;
+}
+
+.cake-plate {
+  bottom: 0;
+  width: 250px;
+  height: 18px;
+  background: #efe4d9;
+}
+
+.candle {
+  position: absolute;
+  left: 50%;
+  bottom: 168px;
+  width: 14px;
+  height: 56px;
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(45deg, #fff8ed 0 8px, #d7a84c 8px 14px);
+  border-radius: 8px;
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+
+.flame {
+  position: absolute;
+  left: 50%;
+  top: -30px;
+  width: 22px;
+  height: 32px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at 50% 64%, #fff7b0 0 22%, #f2a13b 52%, #c95866 100%);
+  border-radius: 50% 50% 46% 46%;
+  animation: flicker 900ms ease-in-out infinite alternate;
+}
+
+.cake-step.blown .candle {
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px);
+}
+
+.soft-action {
+  margin-top: 24px;
+  background: #5a3c37;
+}
+
+.final-note {
+  width: min(680px, 100%);
+  padding: clamp(22px, 6vw, 54px);
+  color: #594943;
+}
+
+.final-note p {
+  margin: 18px auto 0;
+  font-size: clamp(1rem, 2.4vw, 1.18rem);
+  line-height: 1.8;
+}
+
+@keyframes stageIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flicker {
+  from {
+    transform: translateX(-50%) scale(0.94) rotate(-3deg);
+  }
+
+  to {
+    transform: translateX(-50%) scale(1.06) rotate(3deg);
+  }
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  z-index: 10;
+  width: min(520px, calc(100% - 32px));
+  padding: 16px 18px;
+  color: #fffdf8;
+  background: rgba(31, 37, 36, 0.92);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 18px);
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  top: -18px;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  animation: fall 1100ms linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translate3d(var(--drift), 110vh, 0) rotate(520deg);
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 760px) {
+  .game-screen {
+    grid-template-columns: 1fr;
+    align-content: start;
+    padding: 22px 18px 32px;
+  }
+
+  .game-copy h1 {
+    max-width: 10ch;
+  }
+
+  .game-copy p {
+    margin-top: 18px;
+  }
+
+  .game-wrap {
+    width: min(420px, 100%);
+  }
+
+  h1 {
+    font-size: clamp(3.4rem, 18vw, 5.8rem);
+  }
+}
+
+@media (max-width: 440px) {
+  .primary-action {
+    width: 100%;
+  }
+
+  .score-board {
+    grid-template-columns: 1fr;
+    right: auto;
+    width: 98px;
+  }
+}
